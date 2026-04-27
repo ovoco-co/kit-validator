@@ -1,0 +1,27 @@
+{
+  "name": "@ovoco/kit-validator",
+  "version": "0.0.1",
+  "description": "Schema validator library for the ovoco schema-kit pattern (cmdb-kit, hr-kit, and future kits)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ovoco-co/kit-validator.git"
+  },
+  "keywords": [
+    "schema",
+    "validator",
+    "cmdb-kit",
+    "hr-kit",
+    "starter-kit"
+  ],
+  "main": "lib/index.js",
+  "bin": {
+    "kit-validate": "bin/kit-validate.js"
+  },
+  "scripts": {
+    "test": "node --test tests/"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
