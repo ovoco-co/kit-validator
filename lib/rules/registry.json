@@ -1,0 +1,119 @@
+[
+  {
+    "id": "structure.duplicate-type",
+    "description": "schema-structure.json contains no duplicate name entries.",
+    "severity": "error",
+    "constitutionalSource": [
+      "kit-validator/Constitution V: Rules Are Constitutionally Sourced (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "structure.parent-unresolved",
+    "description": "Every type's parent field references a name that exists in schema-structure.json.",
+    "severity": "error",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "attributes.reference-type-unresolved",
+    "description": "Every reference attribute's referenceType matches an entry in schema-structure.json.",
+    "severity": "error",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "attributes.unknown-type",
+    "description": "Every type with an entry in schema-attributes.json appears in schema-structure.json.",
+    "severity": "warning",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "load-priority.missing-type",
+    "description": "Every importable type in schema-structure.json appears in the loadPriority config.",
+    "severity": "warning",
+    "constitutionalSource": [
+      "cmdb-kit/Constitution III: Schema Integrity",
+      "hr-kit/Constitution III: Schema Integrity"
+    ]
+  },
+  {
+    "id": "load-priority.missing-data-file",
+    "description": "Every type in loadPriority has a kebab-case data file in the schema directory's data/ subdirectory.",
+    "severity": "warning",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "data.reference.unresolved",
+    "description": "Every reference value in a data record matches an existing record's Name field (case-sensitive).",
+    "severity": "error",
+    "constitutionalSource": [
+      "cmdb-kit/Constitution III: Schema Integrity",
+      "hr-kit/Constitution III: Schema Integrity"
+    ]
+  },
+  {
+    "id": "data.unknown-field",
+    "description": "Every key in a data record is either declared in schema-attributes.json or is a recognized metadata key (Name, name, description).",
+    "severity": "warning",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "data.null-value",
+    "description": "Data records omit a field rather than set it to null.",
+    "severity": "warning",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "data.boolean-format",
+    "description": "Boolean-typed attributes hold the boolean true or false, not the strings 'true' or 'false'.",
+    "severity": "warning",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "data.date-format",
+    "description": "Date-typed attributes hold ISO YYYY-MM-DD strings.",
+    "severity": "warning",
+    "constitutionalSource": [
+      "kit-validator/Constitution V (originally cmdb-kit existing validator behavior)"
+    ]
+  },
+  {
+    "id": "attribute.casing",
+    "description": "Every attribute name in schema-attributes.json matches /^[a-z][a-zA-Z0-9]*$/ (camelCase).",
+    "severity": "error",
+    "constitutionalSource": [
+      "cmdb-kit/Constitution III: Schema Integrity",
+      "hr-kit/Constitution III: Schema Integrity"
+    ]
+  },
+  {
+    "id": "type.title-case",
+    "description": "Every type's name in schema-structure.json is Title Case (each space-separated word starts with an uppercase letter; acronyms in all-caps allowed).",
+    "severity": "error",
+    "constitutionalSource": [
+      "cmdb-kit/Constitution III: Schema Integrity",
+      "hr-kit/Constitution III: Schema Integrity"
+    ]
+  },
+  {
+    "id": "file.kebab-case",
+    "description": "Every data file name is kebab-case (matches /^[a-z][a-z0-9]*(-[a-z0-9]+)*\\.json$/).",
+    "severity": "error",
+    "constitutionalSource": [
+      "cmdb-kit/Constitution III: Schema Integrity",
+      "hr-kit/Constitution III: Schema Integrity"
+    ]
+  }
+]

@@ -61,3 +61,10 @@ Constitution lives at `../.specify-projects/kit-validator/memory/constitution.md
 - Main branch: main
 - Tag releases as `v0.1.0`, `v0.2.0`, etc., per the constitution's semver discipline
 - Each rule lands as its own commit when practical
+
+## Active Technologies
+- Node.js 18+. Uses only the standard library plus the built-in `node --test` test runner. No transpilation; CommonJS modules. + None at runtime. The library has zero `dependencies` in `package.json` per Constitution VI and FR-012. Dev-time may include a JSON Schema validator for testing the output-schema (chosen during implementation; `ajv` is the obvious candidate since it is the de-facto Node JSON Schema implementation). (001-validator-core)
+- Filesystem only. The library reads schema/data files from the path supplied by `config.schemaDir`. No databases, no caches, no temporary files. (001-validator-core)
+
+## Recent Changes
+- 001-validator-core: Added Node.js 18+. Uses only the standard library plus the built-in `node --test` test runner. No transpilation; CommonJS modules. + None at runtime. The library has zero `dependencies` in `package.json` per Constitution VI and FR-012. Dev-time may include a JSON Schema validator for testing the output-schema (chosen during implementation; `ajv` is the obvious candidate since it is the de-facto Node JSON Schema implementation).

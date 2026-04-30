@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ovoco-co/kit-validator/blob/main/docs/output-schema.json",
+  "title": "kit-validator output records",
+  "description": "JSON Schema for ErrorRecord and WarningRecord values emitted by validate(config). Both record types share this shape; the severity field distinguishes them. v0.1.0.",
+  "type": "object",
+  "required": ["ruleId", "severity", "message", "file", "recordName", "field"],
+  "additionalProperties": false,
+  "properties": {
+    "ruleId": {
+      "type": "string",
+      "description": "Stable rule identifier matching an entry in lib/rules/registry.json."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["error", "warning"],
+      "description": "Records with severity 'error' contribute to a non-zero exitCode."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable explanation of this specific violation."
+    },
+    "file": {
+      "type": ["string", "null"],
+      "description": "Filesystem path to the offending file, or null when the rule is not file-scoped."
+    },
+    "recordName": {
+      "type": ["string", "null"],
+      "description": "The Name field of the offending record, or null for type-level or file-level rules."
+    },
+    "field": {
+      "type": ["string", "null"],
+      "description": "The offending attribute name, or null when the rule does not point at a specific attribute."
+    }
+  }
+}
