@@ -1,1 +1,9 @@
-[ { "Name": "Jane Doe", "sourceChannel": "Phantom Channel" } ]
+[
+  {
+    "Name": "Jane Doe",
+    "sourceChannel": "Phantom Channel",
+    "tags": [
+      "Phantom Channel"
+    ]
+  }
+]

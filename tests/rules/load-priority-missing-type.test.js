@@ -34,3 +34,13 @@ test('load-priority.missing-type does not fire on the negative fixture (Sample i
     `expected 'load-priority.missing-type' not to fire; got: ${[...ids].join(', ')}`
   );
 });
+
+test('load-priority.missing-type does not flag an abstract parent type', () => {
+  // The negative fixture declares the abstract parent 'Group', absent from loadPriority.
+  // A parent type is not importable, so it must never be flagged.
+  const result = runRule('load-priority-missing-type-negative', { loadPriority: ['Sample'] });
+  const flagged = [...result.errors, ...result.warnings]
+    .filter((r) => r.ruleId === 'load-priority.missing-type')
+    .map((r) => r.recordName);
+  assert.strictEqual(flagged.length, 0, `a parent type must not be flagged; got: ${flagged.join(', ')}`);
+});

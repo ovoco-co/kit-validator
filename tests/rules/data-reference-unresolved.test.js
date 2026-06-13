@@ -15,3 +15,11 @@ test('data.reference.unresolved does not fire on the negative fixture', () => {
   const ids = emittedIds(result);
   assert.ok(!ids.has('data.reference.unresolved'), `expected 'data.reference.unresolved' not to fire; got: ${[...ids].join(', ')}`);
 });
+
+test('data.reference.unresolved resolves each element of a multi-valued reference', () => {
+  const result = runRule('data-reference-unresolved-positive');
+  const fields = [...result.errors, ...result.warnings]
+    .filter((r) => r.ruleId === 'data.reference.unresolved')
+    .map((r) => r.field);
+  assert.ok(fields.includes('tags'), `expected the unresolved element of multi-valued 'tags' to be reported; got fields: ${fields.join(', ')}`);
+});

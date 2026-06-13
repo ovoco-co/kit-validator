@@ -1,1 +1,11 @@
-[ { "name": "Sample", "description": "One type." } ]
+[
+  {
+    "name": "Group",
+    "description": "Abstract parent container."
+  },
+  {
+    "name": "Sample",
+    "parent": "Group",
+    "description": "One leaf type."
+  }
+]
