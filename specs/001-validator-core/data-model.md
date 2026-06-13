@@ -9,12 +9,10 @@ Plain JavaScript object. Documented keys at v0.1.0:
 | Key | Type | Required | Notes |
 |----|----|----|----|
 | `schemaDir` | `string` | yes | Filesystem path to a tier root containing `schema-structure.json`, `schema-attributes.json`, and a `data/` subdirectory. May be relative or absolute. |
-| `loadPriority` | `string[]` | yes | Type names in dependency order (referenced types before referencing types). |
-| `nestedTypes` | `string[]` | yes (may be empty) | Type names whose data files use the nested-wrapper format `{ "TypeName": [...] }` rather than a plain array. |
-| `attrNameMap` | `Record<string,string>` | yes (may be empty) | camelCase-to-Title-Case overrides for attribute display names whose default conversion is wrong. |
+| `loadPriority` | `string[]` | optional (empty default) | Type names in dependency order (referenced types before referencing types). |
 | `domainDirs` | `string[]` | optional | Filesystem paths to additional domain tiers that overlay the `schemaDir` tier. Each domain's schema-structure.json and schema-attributes.json merge into the loaded model. |
 
-Unknown keys are silently ignored (FR-005, Edge Cases). Future MINOR versions can add keys without breaking existing consumers.
+Unknown keys are silently ignored (FR-005, Edge Cases). Future MINOR versions can add keys without breaking existing consumers. Data files are flat JSON arrays named in singular kebab-case (the type name lowercased, spaces to hyphens).
 
 ## Output: `ValidateResult` (return value of `validate(config)`)
 

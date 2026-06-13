@@ -24,8 +24,8 @@ Inputs and outputs are documented in `data-model.md`.
 - It returns a result object; it does not call `process.exit`.
 - It is deterministic per Constitution VIII: same `config` plus same filesystem state produces same `result` (record contents and order).
 - Unknown `config` keys are silently ignored (FR-005). This forward-compatibility lets future MINOR versions add keys without breaking existing consumers.
-- When required files are missing, the function returns an error record (with `ruleId: "config.missing-file"` or similar; final identifier pinned during implementation) rather than throwing.
-- The function MUST NOT throw on malformed JSON in input files; it returns an error record describing the parse failure.
+- When required files are missing, the function returns an error record with `ruleId: "input.unreadable"` rather than throwing.
+- The function MUST NOT throw on malformed JSON in input files; it returns an `input.unreadable` error record describing the parse failure.
 
 ## CLI Surface
 
@@ -42,7 +42,7 @@ Mapped to `bin/kit-validate.js` in `package.json` `bin` field. Invoked as `kit-v
 | `--format <text\|json>` | enum | `text` | Output format. See FR-003a (text) and FR-003b (json). |
 | `--help`, `-h` | flag | off | Prints usage to stdout and exits 0. |
 
-Other config keys (loadPriority, nestedTypes, attrNameMap) are not CLI flags; consumers supply them by passing through the function API in their own thin entry point. The CLI binary's primary use case is "from a consuming kit's tools/validate.js wrapper" rather than direct shell use, so the kit-side wrapper supplies kit-specific config and the CLI supplies the schema-directory dispatch.
+Other config keys (loadPriority) are not CLI flags; consumers supply them by passing through the function API in their own thin entry point. The CLI binary's primary use case is "from a consuming kit's tools/validate.js wrapper" rather than direct shell use, so the kit-side wrapper supplies kit-specific config and the CLI supplies the schema-directory dispatch.
 
 #### Output streams
 

@@ -9,7 +9,7 @@ function fixturePath(name) {
 
 function runRule(fixtureName, configOverrides) {
   const config = Object.assign(
-    { schemaDir: fixturePath(fixtureName), loadPriority: [], nestedTypes: [], attrNameMap: {} },
+    { schemaDir: fixturePath(fixtureName), loadPriority: [] },
     configOverrides || {}
   );
   return validate(config);

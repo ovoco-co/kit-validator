@@ -82,8 +82,6 @@ const { validate } = require('@ovoco/kit-validator');
 const result = validate({
   schemaDir: '/path/to/schema/core',
   loadPriority: ['Source Channel', 'Candidate', 'Application'],
-  nestedTypes: [],
-  attrNameMap: {},
 });
 
 if (result.exitCode !== 0) {
@@ -101,9 +99,8 @@ The function is synchronous and reads from the filesystem. It does not call `pro
 This walkthrough applies to both consuming kits.
 
 1. Add the attribute under the relevant type in your kit's `schema-attributes.json`. The attribute name MUST be camelCase.
-2. If the attribute name's default Title Case rendering is wrong (acronyms, unusual word boundaries), add an entry to your kit's `tools/lib/constants.js` ATTR_NAME_MAP.
-3. Optionally populate some or all data records in `schema/core/data/<type>.json` with values for the new attribute.
-4. Run the validator. Fix any errors.
+2. Optionally populate some or all data records in `schema/core/data/<type>.json` with values for the new attribute.
+3. Run the validator. Fix any errors.
 
 ## Add a new rule (kit-validator side, not the consumer side)
 

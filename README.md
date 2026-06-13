@@ -2,7 +2,7 @@
 
 Schema validator library for the ovoco schema-kit pattern. Used by [cmdb-kit](https://github.com/ovoco-co/cmdb-kit), [hr-kit](https://github.com/ovoco-co/hr-kit), and any future kit that follows the same three-layer architecture (schema, data, adapters).
 
-A consuming kit configures the library with its own LOAD_PRIORITY, nested-type list, and attribute-name map, then runs `kit-validate --schema schema/core` to enforce the cross-kit conventions: camelCase attribute names, Title Case display names, kebab-case data file names, exact-name reference resolution, LOAD_PRIORITY dependency order, and the rest of the rules common to schema kits.
+A consuming kit configures the library with its own LOAD_PRIORITY, then runs `kit-validate --schema schema/core` to enforce the cross-kit conventions: camelCase attribute names, Title Case display names, kebab-case data file names, exact-name reference resolution, LOAD_PRIORITY dependency order, and the rest of the rules common to schema kits.
 
 ## Status
 
@@ -24,13 +24,11 @@ In `tools/validate.js`:
 
 ```js
 const { validate } = require('@ovoco/kit-validator');
-const { LOAD_PRIORITY, NESTED_TYPES, ATTR_NAME_MAP } = require('./lib/constants');
+const { LOAD_PRIORITY } = require('./lib/constants');
 
 const result = validate({
   schemaDir: process.argv[3],
   loadPriority: LOAD_PRIORITY,
-  nestedTypes: NESTED_TYPES,
-  attrNameMap: ATTR_NAME_MAP,
 });
 process.exit(result.exitCode);
 ```

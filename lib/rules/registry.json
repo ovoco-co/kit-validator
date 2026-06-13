@@ -115,5 +115,13 @@
       "cmdb-kit/Constitution III: Schema Integrity",
       "hr-kit/Constitution III: Schema Integrity"
     ]
+  },
+  {
+    "id": "input.unreadable",
+    "description": "A schema file that is missing and a data file that is not a flat JSON array are reported as a single error record, so validate(config) returns the result contract instead of throwing.",
+    "severity": "error",
+    "constitutionalSource": [
+      "kit-validator/Constitution II: Stable Output Contract"
+    ]
   }
 ]

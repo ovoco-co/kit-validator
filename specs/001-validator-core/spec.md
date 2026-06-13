@@ -11,6 +11,10 @@
 
 - Q: What output format does v0.1.0 ship? → A: Both human-readable text and `--format json`. Default is human-readable text (errors to stderr, warnings to stdout, ANSI color when stdout is TTY, color off when `KIT_VALIDATE_NO_COLOR` is set). The `--format json` flag emits the function's return value as JSON.
 
+### Session 2026-06-12
+
+- Q: What is the constitutional source for the 11 ported rules in the registry? → A: Match `lib/rules/registry.json`. Nine ported rules cite `kit-validator/Constitution V` (originally cmdb-kit existing validator behavior). The two pure integrity rules `data.reference.unresolved` and `load-priority.missing-type` cite cmdb-kit + hr-kit `Constitution III: Schema Integrity`. The three new naming rules also cite cmdb-kit + hr-kit `Constitution III: Schema Integrity`.
+
 ## User Scenarios and Testing *(mandatory)*
 
 ### User Story 1 - Consuming kit installs and runs the validator (Priority: P1)
@@ -29,7 +33,7 @@ A consuming kit (cmdb-kit, hr-kit, or any future kit following the schema-kit pa
 
 ### User Story 2 - Library is kit-agnostic (Priority: P1)
 
-The library has zero kit-specific logic. cmdb-kit and hr-kit both consume v0.1.0 without modification, and any future kit following the schema-kit pattern can be added as a consumer by supplying its own LOAD_PRIORITY and ATTR_NAME_MAP overrides. No file in the library mentions cmdb-kit, hr-kit, OvocoCRM, Keystone Recruiting, Hireology, or any consumer-specific concept.
+The library has zero kit-specific logic. cmdb-kit and hr-kit both consume v0.1.0 without modification, and any future kit following the schema-kit pattern can be added as a consumer by supplying its own LOAD_PRIORITY. No file in the library mentions cmdb-kit, hr-kit, OvocoCRM, Keystone Recruiting, Hireology, or any consumer-specific concept.
 
 **Why this priority**: Constitutional Principle I. If kit-specific logic creeps in, the library becomes a maintenance nightmare and consumers fork it.
 
@@ -39,7 +43,7 @@ The library has zero kit-specific logic. cmdb-kit and hr-kit both consume v0.1.0
 
 1. **Given** the library source tree, **When** the kit-agnostic grep runs, **Then** it returns zero matches.
 2. **Given** the library tests, **When** they run, **Then** they pass without any cmdb-kit or hr-kit dependency in `package.json`'s `dependencies` or `devDependencies`.
-3. **Given** a hypothetical third consuming kit that supplies its own LOAD_PRIORITY and ATTR_NAME_MAP, **When** it calls `validate(config)`, **Then** the library executes the same rule set it runs for cmdb-kit and hr-kit.
+3. **Given** a hypothetical third consuming kit that supplies its own LOAD_PRIORITY, **When** it calls `validate(config)`, **Then** the library executes the same rule set it runs for cmdb-kit and hr-kit.
 
 ### User Story 3 - Rule discoverability and traceability (Priority: P1)
 
@@ -73,22 +77,24 @@ A consumer encounters a rule failure and wants to understand it. They look up th
 - **FR-003a**: In default text mode, the CLI MUST write error records to stderr (one per line) and warning records to stdout (one per line). Each line carries the rule identifier, the file path, the record name (when applicable), the field name (when applicable), and the message. ANSI color is on when stdout is a TTY and is suppressed when the environment variable `KIT_VALIDATE_NO_COLOR` is set (the only env-var-driven behavior allowed by Constitution VIII).
 - **FR-003b**: In `--format json` mode, the CLI MUST write the function's return value (`{ errors, warnings, exitCode }`) to stdout as a single JSON document. Color and the `KIT_VALIDATE_NO_COLOR` toggle do not apply in JSON mode.
 - **FR-004**: The CLI binary MUST expose every capability of the function API. No CLI-exclusive features; no programmatic-only features. The two output modes (text and JSON) wrap the same underlying call to `validate(config)`.
-- **FR-005**: The function MUST accept the following config keys at v0.1.0: `schemaDir` (string), `loadPriority` (string array), `nestedTypes` (string array), `attrNameMap` (object), `domainDirs` (string array, optional). Unknown config keys MUST be silently ignored to preserve forward compatibility.
+- **FR-005**: The function MUST accept these config keys: `schemaDir` (string, required), `loadPriority` (string array, optional with an empty default), `domainDirs` (string array, optional). Unknown config keys MUST be silently ignored to preserve forward compatibility.
+- **FR-005a**: Data files MUST be flat JSON arrays of records. The data file name MUST be the type name in singular kebab-case (for example, `Workflow Status Set` maps to `workflow-status-set.json`). Self-referencing and circular types are supported: references resolve against the full record set for the referenced type, with no intra-type load ordering required.
 - **FR-006**: The library MUST enforce 14 rules at v0.1.0. Each rule has a stable identifier, a one-line description, a severity (`error` or `warning`), and a documented constitutional source. The 14 rules:
-  - `structure.duplicate-type`: schema-structure.json contains no duplicate `name` entries. Severity: error.
-  - `structure.parent-unresolved`: every `parent` field references a type that exists in the same file. Severity: error.
-  - `attributes.reference-type-unresolved`: every reference attribute's `referenceType` matches a type in schema-structure.json. Severity: error.
-  - `attributes.unknown-type`: every type in schema-attributes.json appears in schema-structure.json. Severity: warning.
-  - `load-priority.missing-type`: every importable type in schema-structure.json appears in `loadPriority`. Severity: warning.
-  - `load-priority.missing-data-file`: every type in `loadPriority` that should have a data file has one (kebab-case filename in the schema directory's `data/` subdirectory). Severity: warning.
-  - `data.reference.unresolved`: every reference value in a data record matches an existing record's `Name` field (case-sensitive). Severity: error.
-  - `data.unknown-field`: every key in a data record is either declared in schema-attributes.json or is a recognized metadata key (`Name`, `name`, `description`). Severity: warning.
-  - `data.null-value`: data records SHOULD omit a field rather than set it to `null`. Severity: warning.
-  - `data.boolean-format`: boolean-typed attributes hold `true` or `false`, not the strings `"true"` or `"false"`. Severity: warning.
-  - `data.date-format`: date-typed attributes hold ISO `YYYY-MM-DD` strings. Severity: warning.
+  - `structure.duplicate-type`: schema-structure.json contains no duplicate `name` entries. Severity: error. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `structure.parent-unresolved`: every `parent` field references a type that exists in the same file. Severity: error. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `attributes.reference-type-unresolved`: every reference attribute's `referenceType` matches a type in schema-structure.json. Severity: error. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `attributes.unknown-type`: every type in schema-attributes.json appears in schema-structure.json. Severity: warning. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `load-priority.missing-type`: every importable type in schema-structure.json appears in `loadPriority`. Severity: warning. Constitutional source: cmdb-kit Constitution III, hr-kit Constitution III (Schema Integrity).
+  - `load-priority.missing-data-file`: every type in `loadPriority` that should have a data file has one (kebab-case filename in the schema directory's `data/` subdirectory). Severity: warning. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `data.reference.unresolved`: every reference value in a data record matches an existing record's `Name` field (case-sensitive). Severity: error. Constitutional source: cmdb-kit Constitution III, hr-kit Constitution III (Schema Integrity).
+  - `data.unknown-field`: every key in a data record is either declared in schema-attributes.json or is a recognized metadata key (`Name`, `name`, `description`). Severity: warning. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `data.null-value`: data records SHOULD omit a field rather than set it to `null`. Severity: warning. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `data.boolean-format`: boolean-typed attributes hold `true` or `false`, not the strings `"true"` or `"false"`. Severity: warning. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
+  - `data.date-format`: date-typed attributes hold ISO `YYYY-MM-DD` strings. Severity: warning. Constitutional source: kit-validator Constitution V (originally cmdb-kit existing validator behavior).
   - `attribute.casing`: every attribute name in schema-attributes.json matches `^[a-z][a-zA-Z0-9]*$` (camelCase). Severity: error. Constitutional source: cmdb-kit Constitution III, hr-kit Constitution III.
   - `type.title-case`: every type's `name` in schema-structure.json is Title Case (each space-separated word starts with an uppercase letter; allows acronyms in all-caps). Severity: error. Constitutional source: cmdb-kit Constitution III, hr-kit Constitution III.
   - `file.kebab-case`: every data file name is kebab-case (`^[a-z][a-z0-9]*(-[a-z0-9]+)*\.json$`). Severity: error. Constitutional source: cmdb-kit Constitution III, hr-kit Constitution III.
+- **FR-006a**: The registry MUST also carry `input.unreadable` (severity `error`), the identifier emitted when a schema file is missing or a data file is not a flat JSON array. It is produced by the loader path rather than a rule module, so `validate(config)` returns the result contract instead of throwing (Constitution II).
 - **FR-007**: The library MUST publish a rule registry at `lib/rules/registry.json` listing every rule identifier, description, severity, and constitutional source. The set of identifiers in the registry MUST match the set emitted by `validate(config)` exactly.
 - **FR-008**: The library MUST publish a JSON Schema for the error record shape and the warning record shape, located at `docs/output-schema.json`. Each error and warning record returned by `validate(config)` MUST validate against the schema.
 - **FR-009**: At minimum, every error record MUST contain: `ruleId` (string), `message` (string), `severity` (string, equal to `error`), and a source-location triple: `file` (string path), `recordName` (string, when applicable), and `field` (string, when applicable).
