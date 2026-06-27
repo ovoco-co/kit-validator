@@ -41,12 +41,6 @@ npm test
 node bin/kit-validate.js --schema tests/fixtures/valid-schema
 ```
 
-## Speckit
-
-Initialized with `specify init --here --ai claude`. Workflow: `/speckit.specify` → `/speckit.clarify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.analyze` → `/speckit.implement`.
-
-Constitution lives at `../.specify-projects/kit-validator/memory/constitution.md` and is symlinked into `.specify/memory/` by `../setup-workspace.sh`.
-
 ## Documentation Formatting Rules
 
 - No em dashes (use hyphen or comma instead)
