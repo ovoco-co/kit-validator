@@ -15,7 +15,7 @@ In a consuming kit's `package.json`:
 ```json
 {
   "dependencies": {
-    "@ovoco/kit-validator": "git+https://github.com/ovoco-co/kit-validator.git#v0.3.0"
+    "@ovoco/kit-validator": "git+https://github.com/ovoco-co/kit-validator.git#v0.3.1"
   }
 }
 ```
