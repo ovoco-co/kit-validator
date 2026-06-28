@@ -1,0 +1,9 @@
+{
+  "Source Channel": {
+    "description": { "type": 0 }
+  },
+  "Candidate": {
+    "sourceChannel": { "type": 1, "referenceType": "Source Channel" },
+    "tags": { "type": 1, "referenceType": "Source Channel", "max": -1 }
+  }
+}

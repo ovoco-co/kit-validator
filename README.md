@@ -46,6 +46,10 @@ Data records are loaded from the primary schema directory and from every directo
 
 When no `domainDirs` are passed, only the primary directory's data is read, exactly as before. If the same type's data file appears in more than one directory, the first in search order wins and later copies are ignored.
 
+## Multi-valued references
+
+A reference attribute marked `max: -1` is multi-valued. Its value may be a JSON array, `["A", "B"]`, or a semicolon-delimited string, `"A;B"`. Either way each element is resolved on its own against the target type, and an element that matches no record name is reported individually. Single-valued references hold one scalar and are matched whole.
+
 ## Related
 
 - [cmdb-kit](https://github.com/ovoco-co/cmdb-kit) - first consuming kit
