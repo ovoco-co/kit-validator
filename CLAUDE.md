@@ -59,6 +59,8 @@ node bin/kit-validate.js --schema tests/fixtures/valid-schema
 ## Active Technologies
 - Node.js 18+. Uses only the standard library plus the built-in `node --test` test runner. No transpilation; CommonJS modules. + None at runtime. The library has zero `dependencies` in `package.json` per Constitution VI and FR-012. Dev-time may include a JSON Schema validator for testing the output-schema (chosen during implementation; `ajv` is the obvious candidate since it is the de-facto Node JSON Schema implementation). (001-validator-core)
 - Filesystem only. The library reads schema/data files from the path supplied by `config.schemaDir`. No databases, no caches, no temporary files. (001-validator-core)
+- Node.js >=18, CommonJS. Unchanged. + None. Node standard library only (`fs`, `path`). Unchanged. (002-multi-dir-data-loading)
+- JSON files on disk read by the loader. No database. (002-multi-dir-data-loading)
 
 ## Recent Changes
 - 001-validator-core: Added Node.js 18+. Uses only the standard library plus the built-in `node --test` test runner. No transpilation; CommonJS modules. + None at runtime. The library has zero `dependencies` in `package.json` per Constitution VI and FR-012. Dev-time may include a JSON Schema validator for testing the output-schema (chosen during implementation; `ajv` is the obvious candidate since it is the de-facto Node JSON Schema implementation).
