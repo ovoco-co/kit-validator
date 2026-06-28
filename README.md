@@ -15,7 +15,7 @@ In a consuming kit's `package.json`:
 ```json
 {
   "dependencies": {
-    "@ovoco/kit-validator": "git+https://github.com/ovoco-co/kit-validator.git#v0.1.0"
+    "@ovoco/kit-validator": "git+https://github.com/ovoco-co/kit-validator.git#v0.3.0"
   }
 }
 ```
@@ -39,6 +39,12 @@ CLI:
 kit-validate --schema schema/core
 kit-validate --schema schema/core --domain schema/domains/infrastructure
 ```
+
+## Data loading
+
+Data records are loaded from the primary schema directory and from every directory passed in `domainDirs` (or with `--domain` on the CLI). For each type, the data file is sought across those directories in order, the primary first then each domain as given, and loaded from the first one that has it. The validated record set is the union, so a record in a domain that references a record in the base resolves, because both are loaded together.
+
+When no `domainDirs` are passed, only the primary directory's data is read, exactly as before. If the same type's data file appears in more than one directory, the first in search order wins and later copies are ignored.
 
 ## Related
 
