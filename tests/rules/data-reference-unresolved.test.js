@@ -34,3 +34,22 @@ test('data.reference.unresolved splits a semicolon-delimited multi-valued refere
   assert.strictEqual(unresolved[0].field, 'tags');
   assert.ok(unresolved[0].message.includes('Ghost'), `expected the 'Ghost' element to be reported; got: ${unresolved[0].message}`);
 });
+
+// A reference into a type whose data file is empty was reported, and the same
+// reference into a type whose data file is absent was not. The rule skipped when
+// no records had been loaded for the target, so deleting a data file silenced
+// every reference into it. That cost a record in a consuming repository on
+// 29 August 2026: a hardware model was deleted, the workstation pointing at it
+// still validated clean, and nothing said so.
+
+test('data.reference.unresolved fires when the target type states no data file', () => {
+  const result = runRule('data-reference-unresolved-absent-target');
+  const unresolved = [...result.errors, ...result.warnings]
+    .filter((r) => r.ruleId === 'data.reference.unresolved');
+
+  assert.ok(unresolved.length > 0,
+    'a declared type with no data file resolves no name, so a reference into it is broken. '
+    + `Got: ${[...emittedIds(result)].join(', ')}`);
+  assert.ok(unresolved.some((r) => r.message.includes('LinkedIn')),
+    `expected the unresolved value to be named; got: ${unresolved.map((r) => r.message).join(' | ')}`);
+});
