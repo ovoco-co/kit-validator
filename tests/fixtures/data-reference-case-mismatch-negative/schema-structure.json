@@ -1,0 +1,4 @@
+[
+  { "name": "Source Channel", "description": "Lookup." },
+  { "name": "Candidate", "description": "Person being considered." }
+]
