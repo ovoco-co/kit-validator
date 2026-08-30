@@ -1,0 +1,4 @@
+[
+  { "name": "Product", "description": "Identified by Name." },
+  { "name": "Component Instance", "description": "Identified by component plus buildNumber." }
+]

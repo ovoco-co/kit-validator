@@ -123,5 +123,13 @@
     "constitutionalSource": [
       "kit-validator/Constitution II: Stable Output Contract"
     ]
+  },
+  {
+    "id": "data.identity.duplicate",
+    "description": "No two records in one type share their identity fields.",
+    "severity": "error",
+    "constitutionalSource": [
+      "kit-validator/Constitution V: a load that keeps one of two records sharing an identity and reports success loses data silently"
+    ]
   }
 ]

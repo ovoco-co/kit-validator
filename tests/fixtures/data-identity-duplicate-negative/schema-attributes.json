@@ -1,0 +1,7 @@
+{
+  "Product": { "description": { "type": 0 } },
+  "Component Instance": {
+    "component": { "type": 0 },
+    "buildNumber": { "type": 0 }
+  }
+}
